@@ -1,0 +1,488 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{43BF30BC-A17B-4D45-B41D-0BAFF20EF96C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HsinChu.DailyLife</RootNamespace>
+    <AssemblyName>HsinChu.DailyLife</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\addmodules\開發模組\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Cells, Version=4.4.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\Campus\Aspose.Cells.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Aspose.Words, Version=4.4.1.0, Culture=neutral, PublicKeyToken=716fcc553a201e56">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\Campus\Aspose.Words.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevComponents.DotNetBar2, Version=9.5.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\components\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="FISCA">
+      <HintPath>..\..\LibraryProject\FISCA.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FISCA.Data">
+      <HintPath>..\..\LibraryProject\FISCA.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FISCA.DSAUtil">
+      <HintPath>..\..\LibraryProject\FISCA.DSAUtil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FISCA.LogAgent">
+      <HintPath>..\..\LibraryProject\FISCA.LogAgent.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FISCA.Presentation">
+      <HintPath>..\..\LibraryProject\FISCA.Presentation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FISCA.UDT">
+      <HintPath>..\..\LibraryProject\FISCA.UDT.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Framework">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\Framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="IntelliSchool.DSA.ClientFramework">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\IntelliSchool.DSA.ClientFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JHSchool">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\JHSchool.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JHSchool.Affair">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\JHSchool.Affair.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JHSchool.Behavior, Version=1.0.13.7, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHBehavior_Beta\JHSchool.Behavior.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JHSchool.Data">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\JHSchool.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="JHSchool.Evaluation">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHEvaluation_Beta\JHSchool.Evaluation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="K12.Data">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\K12.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="K12.Presentation">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\K12.Presentation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SmartSchool.API.PlugIn">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\SmartSchool.API.PlugIn.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SmartSchool.Customization.PlugIn">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\SmartSchool.Customization.PlugIn.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SmartSchool.ErrorReporting">
+      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\SmartSchool.ErrorReporting.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UDT\SLRecord.cs" />
+    <Compile Include="日常生活表現總表\new\ConditionalEvaluateFactory.cs" />
+    <Compile Include="日常生活表現總表\new\Graduation.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\AbsenceAmountEachEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\AbsenceAmountEachFractionEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\AbsenceAmountLastEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\AbsenceAmountLastFractionEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\AndEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\DailyBehaviorEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\DailyBehaviorLastEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\DemeritAmountEachEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\DemeritAmountLastEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\EvaluateFactory.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\IEvaluateFactory.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\LearnDomainEachEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\LearnDomainLastEval.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationConditions\OrEval.cs" />
+    <Compile Include="日常生活表現總表\new\SemesterData.cs" />
+    <Compile Include="日常生活表現總表\new\GraduationPredictReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="日常生活表現總表\new\GraduationPredictReportForm.designer.cs">
+      <DependentUpon>GraduationPredictReportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="日常生活表現總表\new\IEvaluative.cs" />
+    <Compile Include="日常生活表現總表\new\PerformanceDegreeMapper.cs" />
+    <Compile Include="日常生活表現總表\new\UIConfig.cs" />
+    <Compile Include="轉入補登\AttendanceObj.cs" />
+    <Compile Include="轉入補登\ChangeToCDS.cs" />
+    <Compile Include="轉入補登\X_ChangeToInitialSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="轉入補登\X_ChangeToInitialSummary.Designer.cs">
+      <DependentUpon>X_ChangeToInitialSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="轉入補登\ChangeToMoralScore.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="轉入補登\ChangeToMoralScore.Designer.cs">
+      <DependentUpon>ChangeToMoralScore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="轉入補登\ChangeToRepairForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="轉入補登\ChangeToRepairForm.Designer.cs">
+      <DependentUpon>ChangeToRepairForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDailyLife\ClassScore.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDailyLife\ClassScore.designer.cs">
+      <DependentUpon>ClassScore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClassDailyLife\MoralScoreList.cs" />
+    <Compile Include="ClassDLScoreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassDLScoreForm.designer.cs">
+      <DependentUpon>ClassDLScoreForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DailyLifeCheck\DailyLifeInspect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DailyLifeCheck\DailyLifeInspect.designer.cs">
+      <DependentUpon>DailyLifeInspect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DailyLifeCheck\DataObj.cs" />
+    <Compile Include="DailyLifeCheck\DataSelect.cs" />
+    <Compile Include="DLScoreEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DLScoreEditForm.designer.cs">
+      <DependentUpon>DLScoreEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HsinChuScoreItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HsinChuScoreItem.designer.cs">
+      <DependentUpon>HsinChuScoreItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HsinChuDailyLifeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HsinChuDailyLifeForm.designer.cs">
+      <DependentUpon>HsinChuDailyLifeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportExport\ExportStudentV2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportExport\ExportStudentV2.designer.cs">
+      <DependentUpon>ExportStudentV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportExport\ExportTextScore.cs" />
+    <Compile Include="ImportExport\ImportStudentV2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportExport\ImportStudentV2.designer.cs">
+      <DependentUpon>ImportStudentV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportExport\ImportTextScore.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StudentRoutineWork\NewSRoutineForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StudentRoutineWork\NewSRoutineForm.designer.cs">
+      <DependentUpon>NewSRoutineForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StudentRoutineWork\StudentDataObj.cs" />
+    <Compile Include="StudentRoutineWork\StudentInfo.cs" />
+    <Compile Include="StudentRoutineWork\X_StudentRoutineForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StudentRoutineWork\X_StudentRoutineForm.designer.cs">
+      <DependentUpon>X_StudentRoutineForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransferStudentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransferStudentForm.designer.cs">
+      <DependentUpon>TransferStudentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransferStudent\DAL\TransferStudentDAL.cs" />
+    <Compile Include="TransferStudent\Data\Absence\AbsenceData.cs" />
+    <Compile Include="TransferStudent\Data\Absence\AbsenceItem.cs" />
+    <Compile Include="TransferStudent\Data\DailyBehavior\DailyBehaviorData.cs" />
+    <Compile Include="TransferStudent\Data\DailyBehavior\DailyBehaviorItem.cs" />
+    <Compile Include="TransferStudent\Data\DailyLifeRecommend\DailyLifeRecommendData.cs" />
+    <Compile Include="TransferStudent\Data\DailyLifeRecommend\DailyLifeRecommendItem.cs" />
+    <Compile Include="TransferStudent\Data\GroupActivity\GroupActivityData.cs" />
+    <Compile Include="TransferStudent\Data\GroupActivity\GroupActivityItem.cs" />
+    <Compile Include="TransferStudent\Data\MeritDetail\MeritDetailData.cs" />
+    <Compile Include="TransferStudent\Data\MeritDetail\MeritDetailItem.cs" />
+    <Compile Include="TransferStudent\Data\MeritStatistic\MeritStatisticData.cs" />
+    <Compile Include="TransferStudent\Data\MeritStatistic\MeritStatisticItem.cs" />
+    <Compile Include="TransferStudent\Data\PublicService\PublicServiceData.cs" />
+    <Compile Include="TransferStudent\Data\PublicService\PublicServiceItem.cs" />
+    <Compile Include="TransferStudent\Data\SchoolSpecial\SchoolSpecialData.cs" />
+    <Compile Include="TransferStudent\Data\SchoolSpecial\SchoolSpecialItem.cs" />
+    <Compile Include="TransferStudent\Data\SemesterHistory\SemesterHistory.cs" />
+    <Compile Include="TransferStudent\Data\TransferStudentData.cs" />
+    <Compile Include="TransferStudent\IStep.cs" />
+    <Compile Include="TransferStudent\Step1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TransferStudent\Step1.Designer.cs">
+      <DependentUpon>Step1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransferStudent\Step2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TransferStudent\Step2.Designer.cs">
+      <DependentUpon>Step2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransferStudent\Step3.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TransferStudent\Step3.Designer.cs">
+      <DependentUpon>Step3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransferStudent\Step4.cs" />
+    <Compile Include="TransferStudent\Step4.Designer.cs">
+      <DependentUpon>Step4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="日常生活表現總表\ClassDailyLifeReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="日常生活表現總表\ClassDailyLifeReport.designer.cs">
+      <DependentUpon>ClassDailyLifeReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="日常生活表現總表\GetMSRlist.cs" />
+    <Compile Include="日常生活表現總表\SelectTypeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="日常生活表現總表\SelectTypeForm.designer.cs">
+      <DependentUpon>SelectTypeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="日常生活表現總表\WeekAbsenceReportConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="日常生活表現總表\WeekAbsenceReportConfig.designer.cs">
+      <DependentUpon>WeekAbsenceReportConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="轉入補登\SummaryObj.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="日常生活表現總表\new\GraduationPredictReportForm.resx">
+      <DependentUpon>GraduationPredictReportForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="轉入補登\X_ChangeToInitialSummary.resx">
+      <DependentUpon>X_ChangeToInitialSummary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="轉入補登\ChangeToMoralScore.resx">
+      <DependentUpon>ChangeToMoralScore.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="轉入補登\ChangeToRepairForm.resx">
+      <DependentUpon>ChangeToRepairForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDailyLife\ClassScore.resx">
+      <DependentUpon>ClassScore.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassDLScoreForm.resx">
+      <DependentUpon>ClassDLScoreForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DailyLifeCheck\DailyLifeInspect.resx">
+      <DependentUpon>DailyLifeInspect.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DLScoreEditForm.resx">
+      <DependentUpon>DLScoreEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HsinChuScoreItem.resx">
+      <DependentUpon>HsinChuScoreItem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HsinChuDailyLifeForm.resx">
+      <DependentUpon>HsinChuDailyLifeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportExport\ExportStudentV2.resx">
+      <DependentUpon>ExportStudentV2.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportExport\ImportStudentV2.resx">
+      <DependentUpon>ImportStudentV2.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentRoutineWork\NewSRoutineForm.resx">
+      <DependentUpon>NewSRoutineForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StudentRoutineWork\X_StudentRoutineForm.resx">
+      <DependentUpon>X_StudentRoutineForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferStudentForm.resx">
+      <DependentUpon>TransferStudentForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferStudent\Step1.resx">
+      <DependentUpon>Step1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferStudent\Step2.resx">
+      <DependentUpon>Step2.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferStudent\Step3.resx">
+      <DependentUpon>Step3.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransferStudent\Step4.resx">
+      <DependentUpon>Step4.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="日常生活表現總表\ClassDailyLifeReport.resx">
+      <DependentUpon>ClassDailyLifeReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="日常生活表現總表\SelectTypeForm.resx">
+      <DependentUpon>SelectTypeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="日常生活表現總表\WeekAbsenceReportConfig.resx">
+      <DependentUpon>WeekAbsenceReportConfig.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\記錄表Word.doc" />
+    <None Include="Resources\評等輸入.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LoadingIcon.gif" />
+    <None Include="Resources\日常生活表現總表範本.xls" />
+    <None Include="Resources\日常生活表現總表範本B4.xls" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ink_ok_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\high_school_64.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
