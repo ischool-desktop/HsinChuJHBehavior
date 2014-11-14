@@ -561,38 +561,55 @@ namespace HsinChu.DailyLife.StudentRoutineWork
 
             try
             {
-                SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
-
-                SaveFileDialog1.Filter = "Word (*.doc)|*.doc|所有檔案 (*.*)|*.*";
-                SaveFileDialog1.FileName = "學生訓導紀錄表(新竹)";
-
-                if (SaveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    inResult.Save(SaveFileDialog1.FileName);
-                    Process.Start(SaveFileDialog1.FileName);
-                    MotherForm.SetStatusBarMessage("學生訓導記錄表,列印完成!!");
-                }
-                else
-                {
-                    FISCA.Presentation.Controls.MsgBox.Show("檔案未儲存");
-                    return;
-                }
 
                 if (PrintSaveFile)
                 {
                      FolderBrowserDialog fbd = new FolderBrowserDialog();
-                     fbd.Description = "請選擇訓導記錄表檔案儲存位置\n規格為(身分證號_學號_姓名)";
+                     fbd.Description = "請選擇訓導記錄表檔案儲存位置\n規格為(學號_身分證號_班級_座號_姓名)";
                      DialogResult dr = fbd.ShowDialog();
                      if (dr == System.Windows.Forms.DialogResult.OK)
                      {
                           foreach (StudentDataObj student in StudentSaveDic.Keys)
                           {
-                               Document doc = StudentSaveDic[student];
-                               doc.Save(fbd.SelectedPath + "\\" + student.StudentRecord.IDNumber + "_" + student.StudentRecord.StudentNumber + "_" + student.StudentRecord.Name + ".doc");
-                          }
-                     }
+                               StringBuilder sb = new StringBuilder();
+                               sb.Append(fbd.SelectedPath + "\\");
+                               sb.Append(student.StudentRecord.StudentNumber + "_");
+                               sb.Append(student.StudentRecord.IDNumber + "_");
+                               sb.Append((student.StudentRecord.Class != null ? student.StudentRecord.Class.Name : "") + "_");
+                               sb.Append((student.StudentRecord.SeatNo.HasValue ? "" + student.StudentRecord.SeatNo.Value : "") + "_");
+                               sb.Append(student.StudentRecord.Name + ".doc");
 
-                     MsgBox.Show("單檔儲存完成!!");
+                               Document doc = StudentSaveDic[student];
+                               doc.Save(sb.ToString());
+                          }
+
+                          MsgBox.Show("學生訓導記錄表,列印完成!!");
+                          System.Diagnostics.Process.Start("explorer", fbd.SelectedPath);
+                     }
+                     else
+                     {
+                          MsgBox.Show("已取消存檔!!");
+                          return;
+                     }
+                }
+                else
+                {
+                     SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
+
+                     SaveFileDialog1.Filter = "Word (*.doc)|*.doc|所有檔案 (*.*)|*.*";
+                     SaveFileDialog1.FileName = "學生訓導紀錄表(新竹)";
+
+                     if (SaveFileDialog1.ShowDialog() == DialogResult.OK)
+                     {
+                          inResult.Save(SaveFileDialog1.FileName);
+                          Process.Start(SaveFileDialog1.FileName);
+                          MotherForm.SetStatusBarMessage("學生訓導記錄表,列印完成!!");
+                     }
+                     else
+                     {
+                          FISCA.Presentation.Controls.MsgBox.Show("已取消存檔");
+                          return;
+                     }
                 }
 
             }
