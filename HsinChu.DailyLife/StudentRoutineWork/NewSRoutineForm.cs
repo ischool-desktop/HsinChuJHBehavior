@@ -14,6 +14,7 @@ using System.IO;
 using System.Diagnostics;
 using JHSchool.Data;
 using System.Xml;
+using SmartSchool.ePaper;
 
 namespace HsinChu.DailyLife.StudentRoutineWork
 {
@@ -34,6 +35,18 @@ namespace HsinChu.DailyLife.StudentRoutineWork
         Dictionary<string, int> DicSummaryIndex = new Dictionary<string, int>();
         Dictionary<string, string> UpdateCoddic = new Dictionary<string, string>();
 
+        List<SemesterSLR> SLRNameList { get; set; }
+
+        bool PrintSaveFile = false;
+        bool PrintUpdateStudentFile = false;
+
+        /// <summary>
+        /// 學生電子報表
+        /// </summary>
+        SmartSchool.ePaper.ElectronicPaper paperForStudent { get; set; }
+
+        Dictionary<StudentDataObj, Document> StudentSaveDic { get; set; }
+
         public NewSRoutineForm()
         {
             InitializeComponent();
@@ -53,6 +66,9 @@ namespace HsinChu.DailyLife.StudentRoutineWork
             _doc = new Document();
             _doc.Sections.Clear(); //清空此Document
 
+            PrintSaveFile = cbPrintSaveFile.Checked;
+            PrintUpdateStudentFile = cbPrintUpdateStudentFile.Checked;
+
             _template = new Document(new MemoryStream(HsinChu.DailyLife.Properties.Resources.記錄表Word));
 
             SetNameIndex();
@@ -65,6 +81,9 @@ namespace HsinChu.DailyLife.StudentRoutineWork
         /// </summary>
         void BGW_DoWork(object sender, DoWorkEventArgs e)
         {
+            paperForStudent = new SmartSchool.ePaper.ElectronicPaper(School.DefaultSchoolYear + "學生訓導記錄表", School.DefaultSchoolYear, School.DefaultSemester, SmartSchool.ePaper.ViewerType.Student);
+            StudentSaveDic = new Dictionary<StudentDataObj, Document>();
+
             StudentInfo Data = new StudentInfo();
 
             foreach (string student in Data.DicStudent.Keys)
@@ -504,16 +523,24 @@ namespace HsinChu.DailyLife.StudentRoutineWork
 
                 #endregion
 
+                MemoryStream stream = new MemoryStream();
+                PageOne.Save(stream, SaveFormat.Doc);
+                paperForStudent.Append(new PaperItem(PaperFormat.Office2003Doc, stream, student));
+
+                StudentSaveDic.Add(obj, PageOne);
+
                 //將PageOne加入主文件內
                 _doc.Sections.Add(_doc.ImportNode(PageOne.FirstSection, true));
 
                 #endregion
             }
 
+            //如果有打勾則上傳電子報表
+            if (PrintUpdateStudentFile)
+                 SmartSchool.ePaper.DispatcherProvider.Dispatch(paperForStudent);
+
             e.Result = _doc;
         }
-
-        List<SemesterSLR> SLRNameList { get; set; }
 
         public int SortSLR(SemesterSLR s1, SemesterSLR s2)
         {
@@ -550,6 +577,24 @@ namespace HsinChu.DailyLife.StudentRoutineWork
                     FISCA.Presentation.Controls.MsgBox.Show("檔案未儲存");
                     return;
                 }
+
+                if (PrintSaveFile)
+                {
+                     FolderBrowserDialog fbd = new FolderBrowserDialog();
+                     fbd.Description = "請選擇訓導記錄表檔案儲存位置\n規格為(身分證號_學號_姓名)";
+                     DialogResult dr = fbd.ShowDialog();
+                     if (dr == System.Windows.Forms.DialogResult.OK)
+                     {
+                          foreach (StudentDataObj student in StudentSaveDic.Keys)
+                          {
+                               Document doc = StudentSaveDic[student];
+                               doc.Save(fbd.SelectedPath + "\\" + student.StudentRecord.IDNumber + "_" + student.StudentRecord.StudentNumber + "_" + student.StudentRecord.Name + ".doc");
+                          }
+                     }
+
+                     MsgBox.Show("單檔儲存完成!!");
+                }
+
             }
             catch
             {
