@@ -12,7 +12,7 @@ namespace JHSchool.Behavior.ImportExport
         private List<string> DailyBehaviors = new List<string>() { "愛整潔", "有禮貌", "守秩序", "責任心", "公德心", "友愛關懷", "團隊合作" };
         private List<string> Keys = new List<string>();
         private Dictionary<string, string> Indexes = new Dictionary<string, string>();
-      
+
         public ImportTextScore()
         {
             this.Image = null;
@@ -38,13 +38,13 @@ namespace JHSchool.Behavior.ImportExport
             Dictionary<string, JHMoralScoreRecord> CacheMoralScore = new Dictionary<string, JHMoralScoreRecord>();
 
             wizard.RequiredFields.AddRange("學年度", "學期", "具體建議");
-            wizard.ImportableFields.AddRange("學年度", "學期", "具體建議","其他表現");
+            wizard.ImportableFields.AddRange("學年度", "學期", "具體建議", "其他表現");
 
             wizard.RequiredFields.AddRange(DailyBehaviors);
             wizard.ImportableFields.AddRange(DailyBehaviors);
 
             wizard.PackageLimit = 400;
-            wizard.ValidateStart += (sender,e)=>
+            wizard.ValidateStart += (sender, e) =>
             {
                 foreach (JHMoralScoreRecord record in JHMoralScore.SelectByStudentIDs(e.List))
                     if (!CacheMoralScore.ContainsKey(record.ID))
@@ -53,7 +53,7 @@ namespace JHSchool.Behavior.ImportExport
                 Keys.Clear();
             };
 
-            wizard.ValidateRow += (sender,e)=>
+            wizard.ValidateRow += (sender, e) =>
             {
                 int schoolYear, semester;
                 #region 驗共同必填欄位
@@ -80,7 +80,7 @@ namespace JHSchool.Behavior.ImportExport
                 #endregion
             };
             wizard.ImportComplete += (sender, e) => MessageBox.Show("匯入完成");
-            wizard.ImportPackage += (sender,e)=>
+            wizard.ImportPackage += (sender, e) =>
             {
                 //要更新的德行成績列表
                 List<JHMoralScoreRecord> updateMoralScores = new List<JHMoralScoreRecord>();
@@ -106,12 +106,13 @@ namespace JHSchool.Behavior.ImportExport
                         MakeSureElement(record);
 
                         if (record.TextScore != null)
-                        {                
+                        {
                             //處理日常行為表現
                             foreach (string DailyBehavior in DailyBehaviors)
                             {
                                 if (row.ContainsKey(DailyBehavior))
                                 {
+
                                     XmlElement Element = record.TextScore.SelectSingleNode("DailyBehavior/Item[@Name='" + DailyBehavior + "']") as XmlElement;
 
                                     if (Element != null)
@@ -120,22 +121,24 @@ namespace JHSchool.Behavior.ImportExport
                                     {
                                         XmlElement NewElement = record.TextScore.OwnerDocument.CreateElement("Item");
                                         NewElement.SetAttribute("Name", DailyBehavior);
-                                        NewElement.SetAttribute("Index", Indexes[DailyBehavior]);
+
+                                        if (Indexes.ContainsKey(DailyBehavior))
+                                            NewElement.SetAttribute("Index", Indexes[DailyBehavior]);
 
                                         if (!string.IsNullOrEmpty(row[DailyBehavior]))
                                             NewElement.SetAttribute("Degree", row[DailyBehavior]);
                                         record.TextScore.SelectSingleNode("DailyBehavior").AppendChild(NewElement);
-                                    } 
+                                    }
                                 }
                             }
 
 
                             if (row.ContainsKey("具體建議"))
                             {
-                            
+
                                 XmlElement DailyLifeRecommentElement = record.TextScore.SelectSingleNode("DailyLifeRecommend") as XmlElement;
 
-                                if (DailyLifeRecommentElement!=null)
+                                if (DailyLifeRecommentElement != null)
                                     DailyLifeRecommentElement.SetAttribute("Description", row["具體建議"]);
                                 else
                                 {
@@ -145,11 +148,11 @@ namespace JHSchool.Behavior.ImportExport
                                 }
                             }
 
-                           if (row.ContainsKey("其他表現"))
-                           {
-                               XmlElement OtherRecommentElement = record.TextScore.SelectSingleNode("OtherRecommend") as XmlElement;
+                            if (row.ContainsKey("其他表現"))
+                            {
+                                XmlElement OtherRecommentElement = record.TextScore.SelectSingleNode("OtherRecommend") as XmlElement;
 
-                                if (OtherRecommentElement!=null)
+                                if (OtherRecommentElement != null)
                                     OtherRecommentElement.SetAttribute("Description", row["其他表現"]);
                                 else
                                 {
@@ -157,7 +160,7 @@ namespace JHSchool.Behavior.ImportExport
                                     Element.SetAttribute("Description", row["其他表現"]);
                                     record.TextScore.AppendChild(Element);
                                 }
-                            }                            
+                            }
 
                             updateMoralScores.Add(record);
                         }
@@ -177,21 +180,24 @@ namespace JHSchool.Behavior.ImportExport
                         {
                             XmlElement NewElement = record.TextScore.OwnerDocument.CreateElement("Item");
                             NewElement.SetAttribute("Name", DailyBehavior);
-                            NewElement.SetAttribute("Index", Indexes[DailyBehavior]);
-                            NewElement.SetAttribute("Degree", "");
 
+                            if (Indexes.ContainsKey(DailyBehavior))
+                            {
+                                NewElement.SetAttribute("Index", Indexes[DailyBehavior]);
+                            }
+
+                            NewElement.SetAttribute("Degree", "");
                             if (row.ContainsKey(DailyBehavior))
                                 NewElement.SetAttribute("Degree", row[DailyBehavior]);
-
                             record.TextScore.SelectSingleNode("DailyBehavior").AppendChild(NewElement);
                         }
 
                         if (row.ContainsKey("具體建議"))
                         {
-                           XmlElement Element = record.TextScore.SelectSingleNode("DailyLifeRecommend") as XmlElement;
-                            
-                           if (Element!=null)
-                            Element.SetAttribute("Description", row["具體建議"]);
+                            XmlElement Element = record.TextScore.SelectSingleNode("DailyLifeRecommend") as XmlElement;
+
+                            if (Element != null)
+                                Element.SetAttribute("Description", row["具體建議"]);
                         }
 
                         if (row.ContainsKey("其他表現"))
@@ -206,15 +212,15 @@ namespace JHSchool.Behavior.ImportExport
                                 Element.SetAttribute("Description", row["其他表現"]);
                                 record.TextScore.AppendChild(Element);
                             }
-                        }                            
+                        }
 
                         insertMoralScores.Add(record);
                     }
                 }
 
-                if (updateMoralScores.Count>0)
+                if (updateMoralScores.Count > 0)
                     JHMoralScore.Update(updateMoralScores);
-                if (insertMoralScores.Count>0)
+                if (insertMoralScores.Count > 0)
                     JHMoralScore.Insert(insertMoralScores);
             };
         }
@@ -227,7 +233,7 @@ namespace JHSchool.Behavior.ImportExport
             //<OtherRecommend Description=\"\" Name=\"其他表現\"/>
             //</TextScore>
 
-            if (record.TextScore  == null)
+            if (record.TextScore == null)
             {
                 XmlDocument xmldoc = new XmlDocument();
                 xmldoc.LoadXml("<TextScore/>");
