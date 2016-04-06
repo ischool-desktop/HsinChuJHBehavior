@@ -132,6 +132,11 @@
       <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\K12.Presentation.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="K12EmergencyContact, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\K12EmergencyContact.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="SmartSchool.API.PlugIn">
       <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\SmartSchool.API.PlugIn.dll</HintPath>
       <Private>False</Private>
@@ -533,6 +538,8 @@
     <Content Include="Library\K12.Data.xml" />
     <Content Include="Library\K12.Presentation.dll" />
     <Content Include="Library\K12.Presentation.xml" />
+    <Content Include="Library\K12EmergencyContact.dll" />
+    <Content Include="Library\K12EmergencyContact.pdb" />
     <Content Include="Library\SmartSchool.API.PlugIn.dll" />
     <Content Include="Library\SmartSchool.Customization.PlugIn.dll" />
     <Content Include="Library\SmartSchool.Customization.PlugIn.xml" />

@@ -15,6 +15,7 @@ using System.Diagnostics;
 using JHSchool.Data;
 using System.Xml;
 using SmartSchool.ePaper;
+using K12EmergencyContact.DAO;
 
 namespace HsinChu.DailyLife.StudentRoutineWork
 {
@@ -84,6 +85,12 @@ namespace HsinChu.DailyLife.StudentRoutineWork
             paperForStudent = new SmartSchool.ePaper.ElectronicPaper(School.DefaultSchoolYear + "學生訓導記錄表", School.DefaultSchoolYear, School.DefaultSemester, SmartSchool.ePaper.ViewerType.Student);
             StudentSaveDic = new Dictionary<StudentDataObj, Document>();
 
+            //取得StudentIDList
+
+            List<string> StudentIDList = K12.Presentation.NLDPanels.Student.SelectedSource;
+
+            Dictionary<string, udt_K12EmergencyContact> emergencyContact = GetEmergencyContactor(StudentIDList); // 緊急聯絡人
+
             StudentInfo Data = new StudentInfo();
 
             foreach (string student in Data.DicStudent.Keys)
@@ -135,8 +142,20 @@ namespace HsinChu.DailyLife.StudentRoutineWork
                 name.Add("電話1");
                 value.Add(obj.PhonePermanent);
 
+                //  2016/3/30   處理完畢
                 name.Add("緊急");
-                value.Add("");
+                if (emergencyContact.ContainsKey(obj.StudentRecord.ID))
+                {
+                    value.Add(emergencyContact[obj.StudentRecord.ID].ContactName);
+
+                }
+                else
+                {
+                    value.Add("");
+
+                }
+
+
 
                 name.Add("通訊");
                 value.Add(obj.AddressMailing);
@@ -537,9 +556,27 @@ namespace HsinChu.DailyLife.StudentRoutineWork
 
             //如果有打勾則上傳電子報表
             if (PrintUpdateStudentFile)
-                 SmartSchool.ePaper.DispatcherProvider.Dispatch(paperForStudent);
+                SmartSchool.ePaper.DispatcherProvider.Dispatch(paperForStudent);
 
             e.Result = _doc;
+        }
+
+        public Dictionary<string, udt_K12EmergencyContact> GetEmergencyContactor(List<string> list)
+        {
+            #region 取得選擇學生之緊急連絡人
+
+            Dictionary<string, udt_K12EmergencyContact> emergencyContactor = new Dictionary<string, udt_K12EmergencyContact>();
+
+            foreach (udt_K12EmergencyContact each in UDTTransfer.GetStudentK12EmergencyContactByStudentIDList(list))
+            {
+                string studID=each.RefStudentID.ToString();
+                if(!emergencyContactor.ContainsKey(studID))
+                    emergencyContactor.Add(studID, each);
+            }
+
+            return emergencyContactor;
+
+            #endregion
         }
 
         public int SortSLR(SemesterSLR s1, SemesterSLR s2)
@@ -564,52 +601,52 @@ namespace HsinChu.DailyLife.StudentRoutineWork
 
                 if (PrintSaveFile)
                 {
-                     FolderBrowserDialog fbd = new FolderBrowserDialog();
-                     fbd.Description = "請選擇訓導記錄表檔案儲存位置\n規格為(學號_身分證號_班級_座號_姓名)";
-                     DialogResult dr = fbd.ShowDialog();
-                     if (dr == System.Windows.Forms.DialogResult.OK)
-                     {
-                          foreach (StudentDataObj student in StudentSaveDic.Keys)
-                          {
-                               StringBuilder sb = new StringBuilder();
-                               sb.Append(fbd.SelectedPath + "\\");
-                               sb.Append(student.StudentRecord.StudentNumber + "_");
-                               sb.Append(student.StudentRecord.IDNumber + "_");
-                               sb.Append((student.StudentRecord.Class != null ? student.StudentRecord.Class.Name : "") + "_");
-                               sb.Append((student.StudentRecord.SeatNo.HasValue ? "" + student.StudentRecord.SeatNo.Value : "") + "_");
-                               sb.Append(student.StudentRecord.Name + ".doc");
+                    FolderBrowserDialog fbd = new FolderBrowserDialog();
+                    fbd.Description = "請選擇訓導記錄表檔案儲存位置\n規格為(學號_身分證號_班級_座號_姓名)";
+                    DialogResult dr = fbd.ShowDialog();
+                    if (dr == System.Windows.Forms.DialogResult.OK)
+                    {
+                        foreach (StudentDataObj student in StudentSaveDic.Keys)
+                        {
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append(fbd.SelectedPath + "\\");
+                            sb.Append(student.StudentRecord.StudentNumber + "_");
+                            sb.Append(student.StudentRecord.IDNumber + "_");
+                            sb.Append((student.StudentRecord.Class != null ? student.StudentRecord.Class.Name : "") + "_");
+                            sb.Append((student.StudentRecord.SeatNo.HasValue ? "" + student.StudentRecord.SeatNo.Value : "") + "_");
+                            sb.Append(student.StudentRecord.Name + ".doc");
 
-                               Document doc = StudentSaveDic[student];
-                               doc.Save(sb.ToString());
-                          }
+                            Document doc = StudentSaveDic[student];
+                            doc.Save(sb.ToString());
+                        }
 
-                          MsgBox.Show("學生訓導記錄表,列印完成!!");
-                          System.Diagnostics.Process.Start("explorer", fbd.SelectedPath);
-                     }
-                     else
-                     {
-                          MsgBox.Show("已取消存檔!!");
-                          return;
-                     }
+                        MsgBox.Show("學生訓導記錄表,列印完成!!");
+                        System.Diagnostics.Process.Start("explorer", fbd.SelectedPath);
+                    }
+                    else
+                    {
+                        MsgBox.Show("已取消存檔!!");
+                        return;
+                    }
                 }
                 else
                 {
-                     SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
+                    SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
 
-                     SaveFileDialog1.Filter = "Word (*.doc)|*.doc|所有檔案 (*.*)|*.*";
-                     SaveFileDialog1.FileName = "學生訓導紀錄表(新竹)";
+                    SaveFileDialog1.Filter = "Word (*.doc)|*.doc|所有檔案 (*.*)|*.*";
+                    SaveFileDialog1.FileName = "學生訓導紀錄表(新竹)";
 
-                     if (SaveFileDialog1.ShowDialog() == DialogResult.OK)
-                     {
-                          inResult.Save(SaveFileDialog1.FileName);
-                          Process.Start(SaveFileDialog1.FileName);
-                          MotherForm.SetStatusBarMessage("學生訓導記錄表,列印完成!!");
-                     }
-                     else
-                     {
-                          FISCA.Presentation.Controls.MsgBox.Show("已取消存檔");
-                          return;
-                     }
+                    if (SaveFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        inResult.Save(SaveFileDialog1.FileName);
+                        Process.Start(SaveFileDialog1.FileName);
+                        MotherForm.SetStatusBarMessage("學生訓導記錄表,列印完成!!");
+                    }
+                    else
+                    {
+                        FISCA.Presentation.Controls.MsgBox.Show("已取消存檔");
+                        return;
+                    }
                 }
 
             }
