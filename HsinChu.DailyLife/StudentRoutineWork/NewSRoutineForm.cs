@@ -33,6 +33,11 @@ namespace HsinChu.DailyLife.StudentRoutineWork
         List<string> DLBList1 = new List<string>();
         List<string> DLBList2 = new List<string>();
 
+        //DailyBehavior
+        //OtherRecommend
+        //GroupActivity
+        Dictionary<string, string> TieDic1 = new Dictionary<string, string>();
+
         Dictionary<string, int> DicSummaryIndex = new Dictionary<string, int>();
         Dictionary<string, string> UpdateCoddic = new Dictionary<string, string>();
 
@@ -237,6 +242,8 @@ namespace HsinChu.DailyLife.StudentRoutineWork
                 #region 日常生活處理
 
                 GetBehaviorConfig(); //取得設定
+
+                PageOne.MailMerge.Execute(TieDic1.Keys.ToArray(), TieDic1.Values.ToArray());
 
                 builder.MoveToMergeField("設定1");
                 Cell setupCell = (Cell)builder.CurrentParagraph.ParentNode;
@@ -702,8 +709,9 @@ namespace HsinChu.DailyLife.StudentRoutineWork
             DLBList1.Clear();
             DLBList2.Clear();
 
-            K12.Data.Configuration.ConfigData cd = K12.Data.School.Configuration["DLBehaviorConfig"];
+            TieDic1.Clear();
 
+            K12.Data.Configuration.ConfigData cd = K12.Data.School.Configuration["DLBehaviorConfig"];
 
             if (!string.IsNullOrEmpty(cd["DailyBehavior"]))
             {
@@ -712,18 +720,25 @@ namespace HsinChu.DailyLife.StudentRoutineWork
                 {
                     DLBList1.Add(item.GetAttribute("Name"));
                 }
+
+                TieDic1.Add("日常行為表現", dailyBehavior.GetAttribute("Name"));
             }
 
             if (!string.IsNullOrEmpty(cd["OtherRecommend"]))
             {
                 XmlElement otherRecommend = XmlHelper.LoadXml(cd["OtherRecommend"]);
                 DLBList2.Add("OtherRecommend");
+
+                TieDic1.Add("其他表現", otherRecommend.GetAttribute("Name"));
+
             }
 
             if (!string.IsNullOrEmpty(cd["DailyLifeRecommend"]))
             {
                 XmlElement dailyLifeRecommend = XmlHelper.LoadXml(cd["DailyLifeRecommend"]);
                 DLBList2.Add("DailyLifeRecommend");
+
+                TieDic1.Add("具體建議", dailyLifeRecommend.GetAttribute("Name"));
             }
 
         }
