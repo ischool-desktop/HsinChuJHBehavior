@@ -308,6 +308,8 @@ namespace HsinChu.DailyLife.日常生活表現總表
 
             K12.Data.Configuration.ConfigData cd = K12.Data.School.Configuration["DLBehaviorConfig"];
 
+            int DailyBehavior_counter = 0;
+
             if (!string.IsNullOrEmpty(cd["DailyBehavior"]))
             {
                 XmlElement dailyBehavior = XmlHelper.LoadXml(cd["DailyBehavior"]); //日常生活表現
@@ -315,12 +317,84 @@ namespace HsinChu.DailyLife.日常生活表現總表
                 wb.Worksheets["範本"].Cells[2, AttendanceColumn].PutValue(dailyBehavior.GetAttribute("Name"));
 
                 foreach (XmlElement item in dailyBehavior.SelectNodes("Item"))
+                {                 
+                    DailyBehavior_counter++;
+                }
+
+                wb.Worksheets[SheetTitle].Cells.Merge(1, AttendanceColumn, 1, DailyBehavior_counter+2+ (IsPredic? 1:0) );
+                wb.Worksheets["範本"].Cells.Merge(1, AttendanceColumn, 1, DailyBehavior_counter + 2 + (IsPredic ? 1 : 0));
+
+                wb.Worksheets[SheetTitle].Cells.CreateRange(1, AttendanceColumn, 1, DailyBehavior_counter + 2 + (IsPredic ? 1 : 0)).SetOutlineBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
+                wb.Worksheets["範本"].Cells.CreateRange(1, AttendanceColumn, 1, DailyBehavior_counter + 2 + (IsPredic ? 1 : 0)).SetOutlineBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
+
+                wb.Worksheets[SheetTitle].Cells.CreateRange(1, AttendanceColumn, 1, DailyBehavior_counter + 2 + (IsPredic ? 1 : 0)).SetOutlineBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
+                wb.Worksheets["範本"].Cells.CreateRange(1, AttendanceColumn, 1, DailyBehavior_counter + 2 + (IsPredic ? 1 : 0)).SetOutlineBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
+
+
+                wb.Worksheets[SheetTitle].Cells[1, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center;
+                wb.Worksheets["範本"].Cells[1, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center;
+
+
+                wb.Worksheets[SheetTitle].Cells.Merge(2, AttendanceColumn, 1, DailyBehavior_counter);
+                wb.Worksheets["範本"].Cells.Merge(2, AttendanceColumn, 1, DailyBehavior_counter);
+
+                wb.Worksheets[SheetTitle].Cells.CreateRange(2, AttendanceColumn, 1, DailyBehavior_counter).SetOutlineBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
+                wb.Worksheets["範本"].Cells.CreateRange(2, AttendanceColumn, 1, DailyBehavior_counter).SetOutlineBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
+
+
+                wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center;
+                wb.Worksheets["範本"].Cells[2, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center;
+
+                foreach (XmlElement item in dailyBehavior.SelectNodes("Item"))
                 {
                     ColumnInTitleIndex.Add(item.GetAttribute("Name"), AttendanceColumn);
                     wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].PutValue(item.GetAttribute("Name"));
                     wb.Worksheets["範本"].Cells[3, AttendanceColumn].PutValue(item.GetAttribute("Name"));
+
+
+                    #region 設定Style
+                    wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center; //水平置中
+                    wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].Style.VerticalAlignment = TextAlignmentType.Center; //垂直置中
+
+                    wb.Worksheets["範本"].Cells[3, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center; //水平置中
+                    wb.Worksheets["範本"].Cells[3, AttendanceColumn].Style.VerticalAlignment = TextAlignmentType.Center; //垂直置中
+
+
+
+                    wb.Worksheets[SheetTitle].Cells.SetColumnWidth(AttendanceColumn, 7);
+                    wb.Worksheets["範本"].Cells.SetColumnWidth(AttendanceColumn, 7);
+
+
+                    Style style = wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].Style;
+
+                    style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
+
+                    style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
+
+                    style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
+
+                    style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
+
+                    wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].Style = style;
+
+
+                    style = wb.Worksheets["範本"].Cells[3, AttendanceColumn].Style;
+
+                    style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
+
+                    style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
+
+                    style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
+
+                    style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
+
+                    wb.Worksheets["範本"].Cells[3, AttendanceColumn].Style = style; 
+                    #endregion
+                    
                     AttendanceColumn++;
+
                 }
+                          
             }
             if (!string.IsNullOrEmpty(cd["OtherRecommend"]))
             {
@@ -329,6 +403,60 @@ namespace HsinChu.DailyLife.日常生活表現總表
                 ColumnInTitleIndex.Add(otherRecommend.Name, AttendanceColumn);
                 wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].PutValue(otherRecommend.GetAttribute("Name"));
                 wb.Worksheets["範本"].Cells[2, AttendanceColumn].PutValue(otherRecommend.GetAttribute("Name"));
+
+                #region 設定Style
+                wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center; //水平置中
+                wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].Style.VerticalAlignment = TextAlignmentType.Center; //垂直置中
+                wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center; //水平置中
+                wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].Style.VerticalAlignment = TextAlignmentType.Center; //垂直置中
+
+                wb.Worksheets["範本"].Cells[2, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center; //水平置中
+                wb.Worksheets["範本"].Cells[2, AttendanceColumn].Style.VerticalAlignment = TextAlignmentType.Center; //垂直置中
+                wb.Worksheets["範本"].Cells[3, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center; //水平置中
+                wb.Worksheets["範本"].Cells[3, AttendanceColumn].Style.VerticalAlignment = TextAlignmentType.Center; //垂直置中
+
+                wb.Worksheets[SheetTitle].Cells.Merge(2, AttendanceColumn, 2, 1);
+                wb.Worksheets["範本"].Cells.Merge(2, AttendanceColumn, 2, 1);
+
+                wb.Worksheets[SheetTitle].Cells.SetColumnWidth(AttendanceColumn, 21);
+                wb.Worksheets["範本"].Cells.SetColumnWidth(AttendanceColumn, 21);
+
+
+                Style style = wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].Style;
+
+                style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
+
+
+
+                wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].Style = style;
+
+                wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].Style = style;
+
+                style = wb.Worksheets["範本"].Cells[2, AttendanceColumn].Style;
+
+                style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
+
+
+
+                wb.Worksheets["範本"].Cells[2, AttendanceColumn].Style = style;
+
+                wb.Worksheets["範本"].Cells[3, AttendanceColumn].Style = style; 
+                #endregion
+
+
+
                 AttendanceColumn++;
             }
 
@@ -341,9 +469,53 @@ namespace HsinChu.DailyLife.日常生活表現總表
                 wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].PutValue(dailyLifeRecommend.GetAttribute("Name"));
                 wb.Worksheets["範本"].Cells[2, AttendanceColumn].PutValue(dailyLifeRecommend.GetAttribute("Name"));
 
+                #region 設定Style
+                wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center; //水平置中
+                wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].Style.VerticalAlignment = TextAlignmentType.Center; //垂直置中
+                wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center; //水平置中
+                wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].Style.VerticalAlignment = TextAlignmentType.Center; //垂直置中
+
+                wb.Worksheets["範本"].Cells[2, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center; //水平置中
+                wb.Worksheets["範本"].Cells[2, AttendanceColumn].Style.VerticalAlignment = TextAlignmentType.Center; //垂直置中
+                wb.Worksheets["範本"].Cells[3, AttendanceColumn].Style.HorizontalAlignment = TextAlignmentType.Center; //水平置中
+                wb.Worksheets["範本"].Cells[3, AttendanceColumn].Style.VerticalAlignment = TextAlignmentType.Center; //垂直置中
 
                 wb.Worksheets[SheetTitle].Cells.Merge(2, AttendanceColumn, 2, 1);
                 wb.Worksheets["範本"].Cells.Merge(2, AttendanceColumn, 2, 1);
+
+                wb.Worksheets[SheetTitle].Cells.SetColumnWidth(AttendanceColumn, 21);
+                wb.Worksheets["範本"].Cells.SetColumnWidth(AttendanceColumn, 21);
+
+
+                Style style = wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].Style;
+
+                style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
+
+                wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].Style = style;
+
+                wb.Worksheets[SheetTitle].Cells[3, AttendanceColumn].Style = style;
+
+
+                style = wb.Worksheets["範本"].Cells[2, AttendanceColumn].Style;
+
+                style.Borders[BorderType.TopBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.BottomBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.LeftBorder].LineStyle = CellBorderType.Thin;
+
+                style.Borders[BorderType.RightBorder].LineStyle = CellBorderType.Thin;
+
+                wb.Worksheets["範本"].Cells[2, AttendanceColumn].Style = style;
+
+                wb.Worksheets["範本"].Cells[3, AttendanceColumn].Style = style;  
+                #endregion
 
             }
 
@@ -361,8 +533,8 @@ namespace HsinChu.DailyLife.日常生活表現總表
                 wb.Worksheets[SheetTitle].Cells[2, AttendanceColumn].PutValue("");
                 wb.Worksheets["範本"].Cells[2, AttendanceColumn].PutValue("");
                 //合併欄位
-                wb.Worksheets[SheetTitle].Cells.Merge(1, AttendanceColumn, 2, 1);
-                wb.Worksheets["範本"].Cells.Merge(1, AttendanceColumn, 2, 1);
+                //wb.Worksheets[SheetTitle].Cells.Merge(1, AttendanceColumn, 2, 1);
+                //wb.Worksheets["範本"].Cells.Merge(1, AttendanceColumn, 2, 1);
                 //調整欄位大小
                 wb.Worksheets[SheetTitle].Cells.SetColumnWidth(AttendanceColumn, 8);
                 wb.Worksheets["範本"].Cells.SetColumnWidth(AttendanceColumn, 8);
@@ -375,6 +547,10 @@ namespace HsinChu.DailyLife.日常生活表現總表
                 //填入抬頭
                 wb.Worksheets[SheetTitle].Cells[1, AttendanceColumn].PutValue("不及格判斷");
                 wb.Worksheets["範本"].Cells[1, AttendanceColumn].PutValue("不及格判斷");
+
+                wb.Worksheets[SheetTitle].Cells.CreateRange(1, 0, 1, AttendanceColumn+1).SetOutlineBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
+                wb.Worksheets["範本"].Cells.CreateRange(1, 0, 1, AttendanceColumn+1).SetOutlineBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
+
                 #endregion
 
                 #region 及格判斷
@@ -409,12 +585,29 @@ namespace HsinChu.DailyLife.日常生活表現總表
 
                 #endregion
             }
+           
+
 
             //標題合併
             wb.Worksheets[SheetTitle].Cells.Merge(0, 0, 1, AttendanceColumn++);
             wb.Worksheets["範本"].Cells.Merge(0, 0, 1, AttendanceColumn++);
 
             #endregion
+
+
+
+            #region 設定學生行Style 自此行後，每一 行學生皆為複製
+            //wb.Worksheets[SheetTitle].Cells.CreateRange(4, 0, 1, AttendanceColumn).SetOutlineBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
+            wb.Worksheets["範本"].Cells.CreateRange(4, 0, 1, AttendanceColumn - 1).SetOutlineBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
+            wb.Worksheets["範本"].Cells.CreateRange(4, 0, 1, AttendanceColumn - 1).SetOutlineBorder(BorderType.LeftBorder, CellBorderType.Thin, Color.Black);
+            wb.Worksheets["範本"].Cells.CreateRange(4, 0, 1, AttendanceColumn - 1).SetOutlineBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
+            wb.Worksheets["範本"].Cells.CreateRange(4, 0, 1, AttendanceColumn - 1).SetOutlineBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
+
+            Style style_studentRow = wb.Worksheets["範本"].Cells[4, 1].Style;
+
+            wb.Worksheets["範本"].Cells.CreateRange(4, 0, 1, AttendanceColumn - 1).Style = style_studentRow; 
+            #endregion
+            
 
             Range RangeDetil = wb.Worksheets["範本"].Cells.CreateRange(0, 4, false);
             Range RangeRow = wb.Worksheets["範本"].Cells.CreateRange(4, 1, false);
