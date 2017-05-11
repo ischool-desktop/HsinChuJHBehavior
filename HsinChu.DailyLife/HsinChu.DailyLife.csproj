@@ -103,6 +103,10 @@
       <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\IntelliSchool.DSA.ClientFramework.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="JHEvaluation.ScoreCalculation">
+      <HintPath>Library\JHEvaluation.ScoreCalculation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="JHSchool">
       <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\JHSchool.dll</HintPath>
       <Private>False</Private>
@@ -120,8 +124,9 @@
       <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHCore_Beta\JHSchool.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="JHSchool.Evaluation">
-      <HintPath>..\..\..\..\..\Documents and Settings\Dylan.Huang\桌面\系統\FiscaAE國中開發\modules\JHEvaluation_Beta\JHSchool.Evaluation.dll</HintPath>
+    <Reference Include="JHSchool.Evaluation, Version=1.0.3.41, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\JHSchool.Evaluation.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="K12.Data">
