@@ -9,7 +9,10 @@ namespace JHSchool.Behavior.ImportExport
 {
     class ImportTextScore : SmartSchool.API.PlugIn.Import.Importer
     {
-        private List<string> DailyBehaviors = new List<string>() { "愛整潔", "有禮貌", "守秩序", "責任心", "公德心", "友愛關懷", "團隊合作" };
+        //改為動態增加
+        //private List<string> DailyBehaviors = new List<string>() { "愛整潔", "有禮貌", "守秩序", "責任心", "公德心", "友愛關懷", "團隊合作" };
+        private List<string> DailyBehaviors = new List<string>();
+
         private List<string> Keys = new List<string>();
         private Dictionary<string, string> Indexes = new Dictionary<string, string>();
 
@@ -32,7 +35,10 @@ namespace JHSchool.Behavior.ImportExport
                 XmlElement Element = Node as XmlElement;
 
                 if (Element != null)
+                {
                     Indexes.Add(Element.GetAttribute("Name"), Element.GetAttribute("Index"));
+                    DailyBehaviors.Add(Element.GetAttribute("Name"));
+                }
             }
 
             Dictionary<string, JHMoralScoreRecord> CacheMoralScore = new Dictionary<string, JHMoralScoreRecord>();

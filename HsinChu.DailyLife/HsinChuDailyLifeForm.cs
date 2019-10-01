@@ -45,6 +45,9 @@ namespace HsinChu.DailyLife
 
         XmlElement mapping;
 
+        //2019/9/27 - Dylan add Log
+        StringBuilder sb_log = new StringBuilder();
+
         public HsinChuDailyLifeForm()
         {
             InitializeComponent();
@@ -52,19 +55,29 @@ namespace HsinChu.DailyLife
             #region 建構子
             K12.Data.Configuration.ConfigData cd = K12.Data.School.Configuration["DLBehaviorConfig"];
 
+            sb_log.AppendLine("修改前資料：");
             #region 日常行為表現
             if (!string.IsNullOrEmpty(cd["DailyBehavior"]))
             {
                 if (cd.Contains("DailyBehavior"))
                 {
+
                     XmlElement dailyBehavior = XmlHelper.LoadXml(cd["DailyBehavior"]);
 
                     gpDailyBehavior.Text = dailyBehavior.GetAttribute("Name");
 
+                    sb_log.AppendLine("");
+                    sb_log.AppendLine(gpDailyBehavior.Text + "：");
+
                     txtDailyBehavior.Text = gpDailyBehavior.Text;
 
                     foreach (XmlElement item in dailyBehavior.SelectNodes("Item"))
+                    {
                         dgvDailyBehavior.Rows.Add(item.GetAttribute("Name"), item.GetAttribute("Index"));
+
+                        //2019/9/27 - Dylan add Log
+                        sb_log.AppendLine(string.Format("欄位「{0}」說明「{1}」", item.GetAttribute("Name"), item.GetAttribute("Index")));
+                    }
 
                     mapping = dailyBehavior.SelectSingleNode("PerformanceDegree") as XmlElement;
                 }
@@ -76,11 +89,14 @@ namespace HsinChu.DailyLife
             {
                 if (cd.Contains("DailyLifeRecommend"))
                 {
+
                     XmlElement dailyLifeRecommend = XmlHelper.LoadXml(cd["DailyLifeRecommend"]);
 
                     gpDailyLifeRecommend.Text = dailyLifeRecommend.GetAttribute("Name");
 
                     txtDailyLifeRecommend.Text = gpDailyLifeRecommend.Text;
+                    sb_log.AppendLine("");
+                    sb_log.AppendLine("「" + gpDailyLifeRecommend.Text + "」");
                 }
             }
             #endregion
@@ -90,14 +106,19 @@ namespace HsinChu.DailyLife
             {
                 if (cd.Contains("OtherRecommend"))
                 {
+
                     XmlElement OtherRecommend = XmlHelper.LoadXml(cd["OtherRecommend"]);
 
                     gpOtherRecommend.Text = OtherRecommend.GetAttribute("Name");
 
                     txtOtherRecommend.Text = gpOtherRecommend.Text;
+                    sb_log.AppendLine("");
+                    sb_log.AppendLine("「" + gpOtherRecommend.Text + "」");
                 }
             }
             #endregion
+
+            sb_log.AppendLine("");
 
             #endregion
         }
@@ -135,6 +156,12 @@ namespace HsinChu.DailyLife
             //dailyBehavior.SetAttribute(".", "Name", gpDailyBehavior.Text);
             dailyBehavior.SetAttribute(".", "Name", txtDailyBehavior.Text);
 
+            sb_log.AppendLine("修改後資料：");
+
+            sb_log.AppendLine("");
+            sb_log.AppendLine(string.Format("「{0}」修改為「{1}」", gpDailyBehavior.Text, txtDailyBehavior.Text));
+
+
             foreach (DataGridViewRow row in dgvDailyBehavior.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -146,6 +173,9 @@ namespace HsinChu.DailyLife
                 XmlElement node = dailyBehavior.AddElement("Item");
                 node.SetAttribute("Name", "" + row.Cells[0].Value);
                 node.SetAttribute("Index", "" + row.Cells[1].Value);
+
+                sb_log.AppendLine(string.Format("欄位「{0}」說明「{1}」", "" + row.Cells[0].Value, "" + row.Cells[1].Value));
+
             }
 
             dailyBehavior.AddElement("PerformanceDegree");
@@ -167,7 +197,12 @@ namespace HsinChu.DailyLife
             //    <DailyLifeRecommend Name="綜合評語"/>
             DSXmlHelper dailyLifeRecommend = new DSXmlHelper("DailyLifeRecommend");
             dailyLifeRecommend.SetAttribute(".", "Name", txtDailyLifeRecommend.Text);
-            cd["DailyLifeRecommend"] = dailyLifeRecommend.ToString(); 
+            cd["DailyLifeRecommend"] = dailyLifeRecommend.ToString();
+
+            sb_log.AppendLine("");
+            sb_log.AppendLine(string.Format("「{0}」修改為「{1}」", gpDailyLifeRecommend.Text, txtDailyLifeRecommend.Text));
+
+
             #endregion
 
             #region 其他表現
@@ -175,6 +210,9 @@ namespace HsinChu.DailyLife
             DSXmlHelper OtherRecommend = new DSXmlHelper("OtherRecommend");
             OtherRecommend.SetAttribute(".", "Name", txtOtherRecommend.Text);
             cd["OtherRecommend"] = OtherRecommend.ToString();
+            sb_log.AppendLine("");
+            sb_log.AppendLine(string.Format("「{0}」修改為「{1}」", gpOtherRecommend.Text, txtOtherRecommend.Text));
+
             #endregion
 
             try
@@ -188,10 +226,10 @@ namespace HsinChu.DailyLife
                 return;
             }
 
-            ApplicationLog.Log("日常生活表現模組.日常生活表現評量設定", "修改日常生活表現評量設定值", "「日常生活表現評量設定值」已被修改。");
-            FISCA.Presentation.Controls.MsgBox.Show("設定檔儲存成功");
+            ApplicationLog.Log("日常生活表現設定", "修改", sb_log.ToString());
+            FISCA.Presentation.Controls.MsgBox.Show("儲存成功");
 
-            this.Close(); 
+            this.Close();
         }
 
         #region TextBox相關事件

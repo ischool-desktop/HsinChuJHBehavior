@@ -9,7 +9,8 @@ namespace JHSchool.Behavior.ImportExport
 {
     class ExportTextScore : SmartSchool.API.PlugIn.Export.Exporter
     {
-        private List<string> DailyBehaviors = new List<string>() { "愛整潔", "有禮貌", "守秩序", "責任心", "公德心", "友愛關懷", "團隊合作" };
+        //private List<string> DailyBehaviors = new List<string>() { "愛整潔", "有禮貌", "守秩序", "責任心", "公德心", "友愛關懷", "團隊合作" };
+        private List<string> DailyBehaviors = new List<string>();
 
         //建構子
         public ExportTextScore()
@@ -21,6 +22,22 @@ namespace JHSchool.Behavior.ImportExport
         //覆寫
         public override void InitializeExport(SmartSchool.API.PlugIn.Export.ExportWizard wizard)
         {
+            K12.Data.Configuration.ConfigData cd = K12.Data.School.Configuration["DLBehaviorConfig"];
+
+            XmlDocument xmldoc = new XmlDocument();
+
+            xmldoc.LoadXml(cd["DailyBehavior"]);
+
+            foreach (XmlNode Node in xmldoc.DocumentElement.SelectNodes("Item"))
+            {
+                XmlElement Element = Node as XmlElement;
+
+                if (Element != null)
+                {
+                    DailyBehaviors.Add(Element.GetAttribute("Name"));
+                }
+            }
+
             wizard.ExportableFields.AddRange("學年度", "學期", "具體建議","其他表現");
             wizard.ExportableFields.AddRange(DailyBehaviors);
 
