@@ -160,8 +160,7 @@ namespace HsinChu.DailyLife
 
             sb_log.AppendLine("");
             sb_log.AppendLine(string.Format("「{0}」修改為「{1}」", gpDailyBehavior.Text, txtDailyBehavior.Text));
-
-
+            
             foreach (DataGridViewRow row in dgvDailyBehavior.Rows)
             {
                 if (row.IsNewRow) continue;
